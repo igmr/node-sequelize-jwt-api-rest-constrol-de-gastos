@@ -1,0 +1,16 @@
+{
+    "editor.tabSize": 4,
+	"editor.fontSize": 16,
+	"editor.insertSpaces": false,
+	"editor.detectIndentation": false,
+	"editor.renderWhitespace": "all",
+	"window.zoomLevel": 0,
+	"cSpell.words": [
+		"contrasena",
+		"descripcion",
+		"hstore",
+		"postgres",
+		"postgresql",
+		"psql"
+	]
+}

@@ -1,0 +1,16 @@
+
+# Datos de configuración de base de datos 
+DB_HOST=
+DB_USER=
+DB_PASSWORD=
+DB_PORT=5432
+DB_DATABASE=
+DB_DRIVE=postgres
+
+# Datos de configuración de la aplicación
+APP_POST=3000
+APP_SALT_PASSWORD=
+
+# Datos de configuración de Json Web Token
+JWT_SECRET=
+JWT_EXPIRE=
