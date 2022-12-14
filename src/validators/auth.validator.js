@@ -16,8 +16,8 @@ const checkLogin = [
 	check('password')
 		.notEmpty()
 			.withMessage('Es requerido.')
-		.isLength({min: 5, max:255})
-			.withMessage('La longitud debe ser menor a 255 y mayor a 5 caracteres')
+		.isLength({min: 4, max:255})
+			.withMessage('La longitud debe ser menor a 255 y mayor a 4 caracteres')
 		.trim()
 		.escape(),
 	(req,res,next)=> {
@@ -46,7 +46,7 @@ const checkStore = [
 			.withMessage('Es requerido.')
 		.isEmail()
 			.withMessage('Formato inválido')
-		.isLength({min: 4, max:65})
+		.isLength({min: 5, max:65})
 			.withMessage('La longitud debe ser menor a 65 y mayor a 4 caracteres')
 		.trim()
 		.escape()

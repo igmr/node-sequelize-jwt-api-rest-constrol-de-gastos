@@ -5,8 +5,8 @@ const handleValidation = require('./../utils/handleValidator')
 //* Check al actualizar usuario
 const checkUpdate = [
 	check('name')
-		.isLength({min: 5, max:65})
-			.withMessage('La longitud debe ser menor a 65 y mayor a 5 caracteres')
+		.isLength({min: 3, max:120})
+			.withMessage('La longitud debe ser menor a 120 y mayor a 5 caracteres')
 		.trim()
 		.escape()
 		.optional(),
@@ -17,8 +17,8 @@ const checkUpdate = [
 		.trim()
 		.optional(),
 	check('email')
-		.isLength({min: 4, max:65})
-			.withMessage('La longitud debe ser menor a 65 y mayor a 4 caracteres')
+		.isLength({min: 4, max:120})
+			.withMessage('La longitud debe ser menor a 120 y mayor a 4 caracteres')
 		.trim()
 		.escape()
 		.normalizeEmail()
