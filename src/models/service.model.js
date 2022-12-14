@@ -30,13 +30,13 @@ const findAll =  async ()=>{
  * ! FROM servicio
  * ! WHERE id= ?
  * ! AND eliminado !=null
- * @param {int} servicio_id 
+ * @param {int} service_id 
  * @returns {any}
  */
-const find =  async (servicie_id)=>{
+const find =  async (service_id)=>{
 	return await serviceSequelize.findOne({
 		attributes:['id', ['nombre', 'name'], ['descripcion', 'description'],['icono', 'icon'], ['costo_base', 'basic_cost']],
-		where: {id : servicie_id}
+		where: {id : service_id}
 	})
 }
 
