@@ -47,7 +47,7 @@ const store = async (req, res)=>{
 		req = matchedData(req)
 		const payload = {
 			...req,
-			basic_cost: Number(req.basic_cost),
+			basic_cost: Number(req.cost),
 			registered: userId,
 		}
 		const service = await serviceModel.create(payload)
@@ -64,13 +64,22 @@ const store = async (req, res)=>{
  */
 const update = async (req, res)=>{
 	try {
-		const body = matchedData(req, {locations:['body']})
+		let body = matchedData(req, {locations:['body']})
 		const {id} = matchedData(req, {locations: ['params']})
 		if(Object.entries(body).length == 0)
 			return respondFail(res, 'Datos no recuperados')
 		const searchService = await serviceModel.find(Number(id))
 		if(!searchService)
 			return respondFail(res, 'Recurso no recuperados')
+
+		if(body.cost)
+		{
+			body = {
+				...body,
+				basic_cost: Number(body.cost)
+			}
+		}
+
 		const result = await serviceModel.update(body, id)
 		if(result == 1)
 		{

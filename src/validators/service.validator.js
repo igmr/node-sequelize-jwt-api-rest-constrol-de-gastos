@@ -42,7 +42,7 @@ const checkStore = [
 		.trim()
 		.escape()
 		.optional(),
-	check('basic_cost')
+	check('cost')
 		.notEmpty()
 			.withMessage('Es requerido.')
 		.isNumeric()
@@ -93,7 +93,7 @@ const checkUpdate = [
 		.trim()
 		.escape()
 		.optional(),
-	check('basic_cost')
+	check('cost')
 		.isNumeric()
 			.withMessage('Formato inválido')
 		.custom(value =>{
