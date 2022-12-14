@@ -22,8 +22,8 @@ const Service = psql.define('Servicio', {
 		defaultValue: null,
 		validate: {
 			min:{
-				args: 2,
-				msg: 'Número mínimo de caracteres son 2.',
+				args: 3,
+				msg: 'Número mínimo de caracteres son 3.',
 			},
 			max:{
 				args: 120,

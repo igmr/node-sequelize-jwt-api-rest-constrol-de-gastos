@@ -70,8 +70,8 @@ const User = psql.define('Usuario', {
 				msg: 'Es requerido (2)'
 			},
 			min: {
-				args: 10,
-				msg: 'Número mínimo de caracteres son 10.',
+				args: 5,
+				msg: 'Número mínimo de caracteres son 5.',
 			}
 		}
 	},
