@@ -1,10 +1,10 @@
 //* Dependencias y módulos
 const {matchedData} = require('express-validator')
-const {respond, respondFailServerError, respondFailValidationErrors, respondFail} = require('./../utils/handleHttpResponse')
-const userModel = require('./../models/user.model')
-const {sequelizeValidationError} = require('./../utils/handleErrorSequelize')
-const conf = require('./../config')
+const {respond, respondFail} = require('./../utils/handleHttpResponse')
 const {encrypt} = require('./../utils/handlePassword')
+const respondException = require('./../utils/handleException')
+const userModel = require('./../models/user.model')
+const conf = require('./../config')
 
 /**
  * * Ruta: Obtener información del usuario
@@ -17,8 +17,7 @@ const index = async (req, res)=>{
 		const data = await userModel.find(Number(req.userId))
 		return respond(res,data)
 	} catch (ex) {
-		// console.error(ex)
-		return respondFailServerError(res, 'Excepción no controlada')
+		return respondException(ex)
 	}
 }
 /**
@@ -51,14 +50,7 @@ const update = async (req, res)=>{
 		}
 		return respondFail(res, 'Datos no localizados (3)')
 	} catch (ex) {
-		// console.error(ex)
-		if(ex.name == 'SequelizeValidationError' ||
-			ex.name == 'SequelizeUniqueConstraintError')
-		{
-			const errors = sequelizeValidationError(ex.errors, ex.name)
-			return respondFailValidationErrors(res, errors)
-		}
-		return respondFailServerError(res, 'Excepción no controlada')
+		return respondException(ex)
 	}
 }
 

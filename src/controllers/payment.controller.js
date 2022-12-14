@@ -1,8 +1,8 @@
 const {matchedData} = require('express-validator')
-const {respond, respondCreated, respondFailServerError, respondFailValidationErrors, respondFail, respondDeleted} = require('./../utils/handleHttpResponse')
+const {respond, respondCreated, respondFail, respondDeleted} = require('./../utils/handleHttpResponse')
+const respondException = require('./../utils/handleException')
 const paymentModel = require('./../models/payment.model')
 const serviceModel = require('./../models/service.model')
-const {sequelizeValidationError} = require('./../utils/handleErrorSequelize')
 
 /**
  * * Ruta: Lista de pagos
@@ -16,8 +16,7 @@ const index = async (req, res)=>{
 		const data = await paymentModel.findAll(userId)
 		return respond(res, data)
 	} catch (ex) {
-		// console.error(ex)
-		return respondFailServerError(res, 'Excepción no controlada')
+		return respondException(res, ex)
 	}
 }
 
@@ -34,8 +33,7 @@ const find = async (req, res)=>{
 		const data =await paymentModel.find(id, userId)
 		return respond(res, data)
 	} catch (ex) {
-		// console.error(ex)
-		return respondFailServerError(res, 'Excepción no controlada')
+		return respondException(res, ex)
 	}
 }
 
@@ -66,14 +64,7 @@ const store = async (req, res)=>{
 		}
 		return respondFail(res, 'Datos no localizado. (2)')
 	} catch (ex) {
-		// console.error(ex)
-		if(ex.name == 'SequelizeValidationError' ||
-			ex.name == 'SequelizeUniqueConstraintError')
-		{
-			const errors = sequelizeValidationError(ex.errors, ex.name)
-			return respondFailValidationErrors(res, errors)
-		}
-		return respondFailServerError(res, 'Excepción no controlada')
+		return respondException(res, ex)
 	}
 }
 
@@ -118,8 +109,7 @@ const update = async (req, res)=>{
 		}
 		return respondFail(res, 'Dato, no localizado. (4)')
 	} catch (ex) {
-		// console.error(ex)
-		return respondFailServerError(res, 'Excepción no controlada')
+		return respondException(res, ex)
 	}
 }
 
@@ -139,8 +129,7 @@ const destroy = async (req, res)=>{
 		await paymentModel.destroy(Number(id))
 		return respondDeleted(res, "Pago eliminado")
 	} catch (ex) {
-		// console.error(ex)
-		return respondFailServerError(res, 'Excepción no controlada')
+		return respondException(res, ex)
 	}
 }
 
@@ -160,8 +149,7 @@ const restore = async (req, res)=>{
 		await paymentModel.restore(Number(id))
 		return respondDeleted(res, "Pago restaurado")
 	} catch (ex) {
-		// console.error(ex)
-		return respondFailServerError(res, 'Excepción no controlada')
+		return respondException(res, ex)
 	}
 }
 

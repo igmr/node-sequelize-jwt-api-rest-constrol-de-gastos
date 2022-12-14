@@ -1,8 +1,8 @@
 //* Dependencias y módulos
 const {matchedData} = require('express-validator')
-const {respond, respondCreated, respondFailServerError, respondFailValidationErrors, respondFail, respondDeleted} = require('./../utils/handleHttpResponse')
+const {respond, respondCreated, respondFail, respondDeleted} = require('./../utils/handleHttpResponse')
+const respondException = require('./../utils/handleException')
 const serviceModel = require('./../models/service.model')
-const {sequelizeValidationError} = require('./../utils/handleErrorSequelize')
 
 /**
  * * Ruta: Lista de servicios
@@ -15,8 +15,7 @@ const index = async (req, res)=>{
 		const data = await serviceModel.findAll()
 		return respond(res,data)
 	} catch (ex) {
-		// console.error(ex)
-		return respondFailServerError(res, 'Excepción no controlada')
+		return respondException(res, ex)
 	}
 }
 
@@ -32,8 +31,7 @@ const find = async (req, res)=>{
 		let data = await serviceModel.find(Number(req.id))
 		return respond(res,data)
 	} catch (ex) {
-		// console.error(ex)
-		return respondFailServerError(res, 'Excepción no controlada')
+		return respondException(res, ex)
 	}
 }
 
@@ -55,14 +53,7 @@ const store = async (req, res)=>{
 		const service = await serviceModel.create(payload)
 		return respondCreated(res, service)
 	} catch (ex) {
-		// console.error(ex)
-		if(ex.name == 'SequelizeValidationError' ||
-			ex.name == 'SequelizeUniqueConstraintError')
-		{
-			const errors = sequelizeValidationError(ex.errors, ex.name)
-			return respondFailValidationErrors(res, errors)
-		}
-		return respondFailServerError(res, 'Excepción no controlada')
+		return respondException(res,ex)
 	}
 }
 /**
@@ -87,14 +78,7 @@ const update = async (req, res)=>{
 			return respond(res,service)
 		}
 	} catch (ex) {
-		// console.error(ex)
-		if(ex.name == 'SequelizeValidationError' ||
-			ex.name == 'SequelizeUniqueConstraintError')
-		{
-			const errors = sequelizeValidationError(ex.errors, ex.name)
-			return respondFailValidationErrors(res, errors)
-		}
-		return respondFailServerError(res, 'Excepción no controlada')
+		return respondException(res, ex)
 	}
 }
 
@@ -113,8 +97,7 @@ const destroy = async (req, res)=>{
 		await serviceModel.destroy(Number(id))
 		return respondDeleted(res, "servicio eliminado")
 	} catch (ex) {
-		// console.error(ex)
-		return respondFailServerError(res, 'Excepción no controlada')
+		return respondException(res, ex)
 	}
 }
 
@@ -133,8 +116,7 @@ const restore = async (req, res)=>{
 		await serviceModel.restore(Number(id))
 		return respondDeleted(res, "servicio restaurado")
 	} catch (ex) {
-		// console.error(ex)
-		return respondFailServerError(res, 'Excepción no controlada')
+		return respondException(res, ex)
 	}
 }
 

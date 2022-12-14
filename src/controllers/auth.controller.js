@@ -1,8 +1,9 @@
 //* Dependencias y módulos
 const {matchedData} = require('express-validator')
-const {respondUnauthorized, respondCreated, respondFail, respondFailServerError} = require('./../utils/handleHttpResponse')
+const {respondUnauthorized, respondCreated, respondFail} = require('./../utils/handleHttpResponse')
 const {tokenSign, respondJwtSuccess, respondJwtExpiredSuccess} = require('./../utils/handleJwt')
 const {encrypt, compare} = require('./../utils/handlePassword')
+const respondException = require('./../utils/handleException')
 const userModel = require('./../models/user.model')
 const conf = require('./../config')
 
@@ -15,11 +16,11 @@ const conf = require('./../config')
 const login = async (req,res) =>{
 	try {
 		req = matchedData(req)
-		const { email, password } = req
+		const {email, password} = req
 		const user = await userModel.findUsuarioByEmail(email)
 		if (user !== null){
 			const salt = conf.appSaltPass
-			const passwordPlain = `${req.password}.${salt}` 
+			const passwordPlain = `${password}.${salt}` 
 			const dbPassword = user.password
 			const validPassword = await compare(passwordPlain, dbPassword)
 			if(validPassword){
@@ -30,8 +31,7 @@ const login = async (req,res) =>{
 		}
 		return respondUnauthorized(res, 'No autorizado (6)')
 	} catch (ex) {
-		// console.error(ex)
-		return respondFailServerError(res, 'Excepción no controlado.')
+		return respondException(res,ex)
 	}
 }
 /**
@@ -55,12 +55,7 @@ const register = async (req, res)=>{
 		}
 		return respondFail(res, "Registro inválido")
 	} catch (ex) {
-		// console.error(ex)
-		if(ex.name == 'SequelizeUniqueConstraintError')
-		{
-			 return respondFailServerError(res, 'Datos inválidos, revisar correo y contraseña')
-		}
-		return respondFailServerError(res, 'Excepción no controlado.')
+		return respondException(res, ex)
 	}
 }
 
