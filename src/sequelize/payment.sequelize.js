@@ -19,7 +19,6 @@ const Payment = psql.define('Pago', {
 		allowNull: false,
 		unique: false,
 		comment: 'Identificador del servicio',
-		defaultValue: null,
 		validate: {
 			notNull:{
 				args: true,

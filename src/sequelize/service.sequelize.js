@@ -19,7 +19,6 @@ const Service = psql.define('Servicio', {
 		allowNull: false,
 		unique: true,
 		comment: 'Nombre del servicio',
-		defaultValue: null,
 		validate: {
 			min:{
 				args: 3,
